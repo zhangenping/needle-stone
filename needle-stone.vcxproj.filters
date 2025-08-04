@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="async">
+      <UniqueIdentifier>{f3eff04c-39ab-4919-88f3-ef9a90471a97}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sorce\async\NSAsync.cpp">
+      <Filter>async</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sorce\async\NSAsync.h">
+      <Filter>async</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
