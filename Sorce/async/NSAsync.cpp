@@ -177,100 +177,100 @@
 //条件变量 (Condition Variables)
 //用于线程间通知和等待特定条件。 生产者-消费者 消费者生产者互相等待
 
-//#include <iostream>
-//#include <queue>
-//#include <thread>
-//#include <mutex>
-//#include <condition_variable>
-//
-//const int BUFFER_SIZE = 10; // 缓冲区容量
-//std::queue<int> data_queue;
-//std::mutex mtx;
-//std::condition_variable cv_producer; // 生产者条件变量
-//std::condition_variable cv_consumer; // 消费者条件变量
-//bool production_complete = false;    // 生产完成标志
-//
-//void producer(int total_items) {
-//    for (int i = 1; i <= total_items; ++i) {
-//
-//        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-//
-//        std::unique_lock<std::mutex> lock(mtx);
-//
-//        // 如果缓冲区满，等待消费者消费
-//        cv_producer.wait(lock, [] {
-//            return data_queue.size() < BUFFER_SIZE;
-//            });
-//
-//        data_queue.push(i);
-//        std::cout << "Produced: " << i << " (Buffer size: "
-//            << data_queue.size() << ")\n";
-//
-//        // 通知消费者有新数据
-//        cv_consumer.notify_one();
-//    }
-//
-//    // 生产完成
-//    {
-//        std::lock_guard<std::mutex> lock(mtx);
-//        production_complete = true;
-//    }
-//    cv_consumer.notify_all(); // 通知所有消费者
-//}
-//
-//void consumer(int id) {
-//    while (true) {
-//
-//        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-//
-//        std::unique_lock<std::mutex> lock(mtx);
-//
-//        // 等待有数据或生产完成
-//        cv_consumer.wait(lock, [] {
-//            return !data_queue.empty() || production_complete;
-//            });
-//
-//        // 如果队列空且生产完成，则退出
-//        if (data_queue.empty() && production_complete) {
-//            break;
-//        }
-//
-//        // 消费数据
-//        int data = data_queue.front();
-//        data_queue.pop();
-//        std::cout << "Consumer " << id << " consumed: " << data
-//            << " (Buffer size: " << data_queue.size() << ")\n";
-//
-//        // 通知生产者有空位
-//        cv_producer.notify_one();
-//    }
-//}
-//
-//int main() {
-//    const int NUM_PRODUCERS = 1;
-//    const int NUM_CONSUMERS = 2;
-//    const int TOTAL_ITEMS = 20;
-//
-//    std::thread producers[NUM_PRODUCERS];
-//    std::thread consumers[NUM_CONSUMERS];
-//
-//    // 启动生产者
-//    for (int i = 0; i < NUM_PRODUCERS; ++i) {
-//        producers[i] = std::thread(producer, TOTAL_ITEMS);
-//    }
-//
-//    // 启动消费者
-//    for (int i = 0; i < NUM_CONSUMERS; ++i) {
-//        consumers[i] = std::thread(consumer, i + 1);
-//    }
-//
-//    // 等待所有线程完成
-//    for (auto& t : producers) t.join();
-//    for (auto& t : consumers) t.join();
-//
-//    std::cout << "All done!\n";
-//    return 0;
-//}
+#include <iostream>
+#include <queue>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+
+const int BUFFER_SIZE = 10; // 缓冲区容量
+std::queue<int> data_queue;
+std::mutex mtx;
+std::condition_variable cv_producer; // 生产者条件变量
+std::condition_variable cv_consumer; // 消费者条件变量
+bool production_complete = false;    // 生产完成标志
+
+void producer(int total_items) {
+    for (int i = 1; i <= total_items; ++i) {
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        std::unique_lock<std::mutex> lock(mtx);
+
+        // 如果缓冲区满，等待消费者消费
+        cv_producer.wait(lock, [] {
+            return data_queue.size() < BUFFER_SIZE;
+            });
+
+        data_queue.push(i);
+        std::cout << "Produced: " << i << " (Buffer size: "
+            << data_queue.size() << ")\n";
+
+        // 通知消费者有新数据
+        cv_consumer.notify_one();
+    }
+
+    // 生产完成  
+    {
+        std::lock_guard<std::mutex> lock(mtx);
+        production_complete = true;
+    }
+    cv_consumer.notify_all(); // 通知所有消费者
+}
+
+void consumer(int id) {
+    while (true) {
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+        std::unique_lock<std::mutex> lock(mtx);
+
+        // 等待有数据或生产完成
+        cv_consumer.wait(lock, [] {
+            return !data_queue.empty() || production_complete;
+            });
+
+        // 如果队列空且生产完成，则退出
+        if (data_queue.empty() && production_complete) {
+            break;
+        }
+
+        // 消费数据
+        int data = data_queue.front();
+        data_queue.pop();
+        std::cout << "Consumer " << id << " consumed: " << data
+            << " (Buffer size: " << data_queue.size() << ")\n";
+
+        // 通知生产者有空位
+        cv_producer.notify_one();
+    }
+}
+
+int main() {
+    const int NUM_PRODUCERS = 1;
+    const int NUM_CONSUMERS = 2;
+    const int TOTAL_ITEMS = 20;
+
+    std::thread producers[NUM_PRODUCERS];
+    std::thread consumers[NUM_CONSUMERS];
+
+    // 启动生产者
+    for (int i = 0; i < NUM_PRODUCERS; ++i) {
+        producers[i] = std::thread(producer, TOTAL_ITEMS);
+    }
+
+    // 启动消费者
+    for (int i = 0; i < NUM_CONSUMERS; ++i) {
+        consumers[i] = std::thread(consumer, i + 1);
+    }
+
+    // 等待所有线程完成
+    for (auto& t : producers) t.join();
+    for (auto& t : consumers) t.join();
+
+    std::cout << "All done!\n";
+    return 0;
+}
 
 //信号量 (C++20)  std::counting_semaphore<5> sem(0); // 最大5，初始0
 //屏障(Barrier - C++20) std::barrier sync_point(3); // 等待3个线程
