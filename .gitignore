@@ -2,5 +2,7 @@
 x64/**
 !x64/Debug/
 !x64/Debug/needle-stone/
+!x64/Debug/needle-stone/babe-lua.config
+!x64/Debug/needle-stone/babe-lua.luaproj
 !x64/Debug/needle-stone/babe-lua/
 !x64/Debug/needle-stone/babe-lua/**
