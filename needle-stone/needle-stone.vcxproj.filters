@@ -15,10 +15,16 @@
     <ClCompile Include="Sorce\lua-cpp\lua-cpp.cpp">
       <Filter>lua-cpp</Filter>
     </ClCompile>
+    <ClCompile Include="Sorce\lua-cpp\animal.cpp">
+      <Filter>lua-cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sorce\async\NSAsync.h">
       <Filter>async</Filter>
+    </ClInclude>
+    <ClInclude Include="Sorce\lua-cpp\animal.h">
+      <Filter>lua-cpp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

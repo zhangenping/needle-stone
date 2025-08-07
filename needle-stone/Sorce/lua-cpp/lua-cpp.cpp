@@ -2,9 +2,12 @@
 #include <string>
 #include "lua.hpp"
 #include <filesystem>
+#include "animal.h"
 using namespace std;
 
 namespace fs = std::filesystem;
+
+void printAnimalInfo(const Animal& animal);
 
 bool checkLua(lua_State* L, int status) {
     if (status != LUA_OK) {
@@ -20,13 +23,8 @@ int main(int argc, char* argv[]) {
     lua_State* L = luaL_newstate();
     luaL_openlibs(L);
 
-    // 获取当前exe的完整路径（包括文件名）
-    fs::path exePath = fs::current_path() / fs::path(argv[0]).filename();
-
-    // 获取所在目录（去掉文件名）
-    fs::path exeDir = fs::absolute(exePath).parent_path();
-
-    fs::path luaScriptPath = exeDir / "babe-lua" / "kits.lua";
+    fs::path exePath = fs::path(argv[0]).parent_path();
+    fs::path luaScriptPath = exePath / "babe-lua" / "kits.lua";
 
     // 加载Lua脚本
     if (!checkLua(L, luaL_dofile(L, luaScriptPath.string().c_str()))) {
@@ -67,5 +65,12 @@ int main(int argc, char* argv[]) {
     }
 
     lua_close(L);
+
+    Cat cat;
+    Dog dog;
+
+    printAnimalInfo(cat);
+    printAnimalInfo(dog);
+
     return 0;
 }
