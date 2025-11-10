@@ -1,0 +1,5 @@
+﻿  dll1.cpp
+E:\needle-stone\test-dll\dll1.cpp(2,11): warning C4273: 'dll1::add': inconsistent dll linkage
+E:\needle-stone\test-dll\dll1.h(14,7): message : see previous definition of 'add'
+     Creating library E:\needle-stone\x64\Debug\test-dll.lib and object E:\needle-stone\x64\Debug\test-dll.exp
+  test-dll.vcxproj -> E:\needle-stone\x64\Debug\test-dll.dll

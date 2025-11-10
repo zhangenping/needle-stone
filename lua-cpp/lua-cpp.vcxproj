@@ -175,7 +175,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./;./Source;./Source/lua-5.4.8/src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./Source;./Source/lua-5.4.8/src;./Source/lua-5.4.8/src/extern</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -3,6 +3,8 @@
 #include "lua.hpp"
 #include <filesystem>
 #include "animal.h"
+#include "dll1.h"
+
 using namespace std;
 
 namespace fs = std::filesystem;
@@ -71,6 +73,10 @@ int main(int argc, char* argv[]) {
 
     printAnimalInfo(cat);
     printAnimalInfo(dog);
+    
+    dll1 mydll;
+    mydll.add(1, 2);
+
 
     return 0;
 }
